@@ -3,13 +3,15 @@
     <!-- APP NAME STRING -->
     <string name="app_name">PocketSong</string>
 
+    <!-- TOOLBAR TABS -->
+    <string name="tab_home">Home</string>
+    <string name="tab_songs">Songs</string>
+    <string name="tab_player">Player</string>
+    <string name="tab_info">Info</string>
+
     <!-- TEXT VIEWS -->
     <string name="txt_frag_main_welcome">Listen to your local music files\nSearch lyrics and info about them\nWhenever and wherever you want to!</string>
-    <string name="txt_frag_disclaimer">Training App by Alvaro de Francisco Sanchez</string>
-
-    <!-- BUTTONS -->
-    <string name="btn_frag_songs">Play songs</string>
-    <string name="btn_frag_search">Search a song</string>
+    <string name="txt_frag_disclaimer">Training App by <font fgcolor='#FFC107'>Alvaro de Francisco Sanchez</font></string>
 
     <!-- IMAGES' CONTENT DESCRIPTIONS -->
     <string name="img_logo">The logo of the app. Its shape is a vinyl disk with a heart and a musical note</string>
