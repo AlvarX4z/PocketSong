@@ -27,6 +27,7 @@ public class ActivityMain extends AppCompatActivity {
         Toast.makeText(ActivityMain.this, R.string.thanks_app, Toast.LENGTH_SHORT).show();
 
         // ------------------------ EVENTS ------------------------
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
             @Override
@@ -44,7 +45,10 @@ public class ActivityMain extends AppCompatActivity {
                         fragTransaction.replace(R.id.frag_layout_main, new FragmentSongs(context));
                         break;
 
-                    case 2: // TODO Add the third Fragment when created
+                    case 2:
+                        fragTransaction.replace(R.id.frag_layout_main, new FragmentPlayer());
+                        break;
+
                     case 3: // TODO Add the fourth Fragment when created
 
                 }

@@ -1,8 +1,11 @@
 package alfrasan.novatada.musicapitestjava;
 
+import android.content.res.Resources;
+
 public class Song {
 
     // ------------------------ FIELDS ------------------------
+
     private String name;
     private String group;
     private String path;
@@ -11,11 +14,19 @@ public class Song {
     private int year;
 
     // ------------------------ CONSTRUCTORS ------------------------
+
     public Song() { }
+
+    public Song(String name, String group) {
+
+        this.name = name;
+        this.group = group;
+
+    }
 
     public Song(String name, String group, String path) {
 
-        this.name = name;
+        setName(name);
         this.group = group;
         this.path = path;
 
@@ -23,7 +34,7 @@ public class Song {
 
     public Song(String name, String group, String path, String lyrics, int duration, int year) {
 
-        this.name = name;
+        setName(name);
         this.group = group;
         this.path = path;
         this.lyrics = lyrics;
@@ -32,53 +43,41 @@ public class Song {
 
     }
 
-    // ------------------------ GETTERS AND SETTERS ------------------------
-    public String getName() {
-        return name;
-    }
+    // ------------------------ GETTERS ------------------------
+
+    public String getName() { return name; }
+
+    public String getGroup() { return group; }
+
+    public String getPath() { return path; }
+
+    public String getLyrics() { return lyrics; }
+
+    public int getDuration() { return duration; }
+
+    public int getYear() { return year; }
+
+    // ------------------------ SETTERS ------------------------
 
     public void setName(String name) {
-        this.name = name;
+
+        if (name.equalsIgnoreCase("Chlorine") || name.isEmpty()) {
+
+            // this.name = Resources.getSystem().getString(R.string.unknown_song);
+            this.name = "Bandit";
+
+        } else { this.name = name; }
+
     }
 
-    public String getGroup() {
-        return group;
-    }
+    public void setGroup(String group) { this.group = group; }
 
-    public void setGroup(String group) {
-        this.group = group;
-    }
+    public void setPath(String path) { this.path = path; }
 
-    public String getPath() {
-        return path;
-    }
+    public void setLyrics(String lyrics) { this.lyrics = lyrics; }
 
-    public void setPath(String path) {
-        this.path = path;
-    }
+    public void setDuration(int duration) { this.duration = duration; }
 
-    public String getLyrics() {
-        return lyrics;
-    }
-
-    public void setLyrics(String lyrics) {
-        this.lyrics = lyrics;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
+    public void setYear(int year) { this.year = year; }
 
 }

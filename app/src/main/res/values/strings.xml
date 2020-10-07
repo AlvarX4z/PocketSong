@@ -15,8 +15,11 @@
 
     <!-- IMAGES' CONTENT DESCRIPTIONS -->
     <string name="img_logo">The logo of the app. Its shape is a vinyl disk with a heart and a musical note</string>
+    <string name="img_cover">The cover of the song\'s album if provided</string>
 
     <!-- OTHER -->
     <string name="thanks_app">Thank you for testing the app!</string>
+    <string name="unknown_song">Unknown Song</string>
+    <string name="unknown_group">Unknown Group</string>
 
 </resources>

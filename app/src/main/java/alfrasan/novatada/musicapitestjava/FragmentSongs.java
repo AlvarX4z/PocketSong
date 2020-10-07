@@ -21,16 +21,19 @@ public class FragmentSongs extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        final View view = inflater.inflate(R.layout.fragment_song, container, false);
+
         // ----------- TESTING CODE FOR THE RECYCLERVIEW ------------
-        Song song1 = new Song("aaaaaa", "bbbbbb", "C:/");
-        Song song2 = new Song("bbbbbbb", "DDDDDDDD", "Z:/");
+
+        Song song1 = new Song("Chlorine", "Twenty-One Pilots", "C:/");
+        Song song2 = new Song("What's My Age Again", "blink-182", "Z:/");
         ArrayList<Song> songList = new ArrayList<>();
         songList.add(song1);
         songList.add(song2);
+
         // ----------- END OF TESTING CODE FOR THE RECYCLERVIEW ------------
 
-        final RecyclerView recyclerView = new RecyclerView(context);
-        recyclerView.findViewById(R.id.recview_frag_song);
+        final RecyclerView recyclerView = view.findViewById(R.id.recview_frag_song);
 
         final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         final RecyclerView.Adapter<RecyclerViewAdapterSong.ViewHolder> recViewAdapter =
@@ -40,7 +43,7 @@ public class FragmentSongs extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(recViewAdapter);
 
-        return inflater.inflate(R.layout.fragment_song, container, false);
+        return view;
 
     }
 
