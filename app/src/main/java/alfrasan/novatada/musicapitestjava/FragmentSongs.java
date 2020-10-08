@@ -2,6 +2,7 @@ package alfrasan.novatada.musicapitestjava;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,31 +55,20 @@ public final class FragmentSongs extends Fragment {
     public ArrayList<Song> getSongsFromMusicDirectory() {
 
         ArrayList<Song> songsList = new ArrayList<>();
-        Log.d("ArrayList<Song>", "ArrayList<Song> Creado !!!");
 
         String absPath = "/storage/emulated/0/Music";
+
+        // String con ruta de prueba, pero no funciona. Al ejecutar y acceder al Fragment, peta.
+        // String absPath2 = context.getExternalFilesDir(Environment.DIRECTORY_MUSIC).toString();
+
         File musicDirectory = new File(absPath);
         File[] musicFiles = musicDirectory.listFiles();
 
-
         Log.d("musicDirectory", musicDirectory.getPath());
-        Log.d("musicDirectory", musicDirectory.getAbsolutePath());
+        Log.d("musicDirectory", (musicDirectory.isDirectory()) ? "Es carpeta" : "Es archivo");
 
-        for (File file : musicFiles) {
-
-            Log.d("ITEM", file.getPath());
-            Log.d("ITEM", file.getName());
-            Log.d("ITEM", file.getAbsolutePath());
-
-
-
-            if (file.getPath().endsWith(".mp3")) {
-
-                songsList.add(new Song(file.getName(), file.getPath()));
-
-            }
-
-        }
+        for (File archivo : musicFiles) { Log.d("Archivo", (archivo.getName())); }
+        Log.d("aaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaa");
 
         return songsList;
 

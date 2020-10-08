@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -65,7 +64,6 @@ public final class RecyclerViewAdapterSong extends RecyclerView.Adapter<Recycler
             public void onClick(View v) {
 
                 ActivityMain.currentSong.setPath(songList.get(pos).getPath());
-                Toast.makeText(context, songList.get(pos).getPath(), Toast.LENGTH_SHORT).show();
 
             }
 
