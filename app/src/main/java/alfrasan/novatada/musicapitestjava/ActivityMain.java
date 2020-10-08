@@ -10,8 +10,9 @@ import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 
-public class ActivityMain extends AppCompatActivity {
+public final class ActivityMain extends AppCompatActivity {
 
+    public static Song currentSong = new Song();
     private Context context = this;
 
     @Override
@@ -46,7 +47,7 @@ public class ActivityMain extends AppCompatActivity {
                         break;
 
                     case 2:
-                        fragTransaction.replace(R.id.frag_layout_main, new FragmentPlayer());
+                        fragTransaction.replace(R.id.frag_layout_main, new FragmentPlayer(context, currentSong));
                         break;
 
                     case 3: // TODO Add the fourth Fragment when created

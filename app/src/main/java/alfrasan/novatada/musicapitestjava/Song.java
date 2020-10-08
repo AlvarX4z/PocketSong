@@ -1,8 +1,11 @@
 package alfrasan.novatada.musicapitestjava;
 
-import android.content.res.Resources;
+public final class Song {
 
-public class Song {
+    private static final String UNKNOWN_SONG = "Unknown Song";
+    private static final String UNKNOWN_GROUP = "Unknown Group";
+    private static final String UNKNOWN_PATH = "Unknown Path";
+    private static final String UNKNOWN_LYRICS = "Lyrics unavailable";
 
     // ------------------------ FIELDS ------------------------
 
@@ -17,26 +20,28 @@ public class Song {
 
     public Song() { }
 
-    public Song(String name, String group) {
+    public Song(String path) { setPath(path); }
 
-        this.name = name;
-        this.group = group;
+    public Song(String name, String path) {
+
+        setName(name);
+        setPath(path);
 
     }
 
     public Song(String name, String group, String path) {
 
         setName(name);
-        this.group = group;
-        this.path = path;
+        setGroup(group);
+        setPath(path);
 
     }
 
     public Song(String name, String group, String path, String lyrics, int duration, int year) {
 
         setName(name);
-        this.group = group;
-        this.path = path;
+        setGroup(group);
+        setPath(path);
         this.lyrics = lyrics;
         this.duration = duration;
         this.year = year;
@@ -61,20 +66,43 @@ public class Song {
 
     public void setName(String name) {
 
-        if (name.equalsIgnoreCase("Chlorine") || name.isEmpty()) {
+        if (name.equalsIgnoreCase("")) {
 
-            // this.name = Resources.getSystem().getString(R.string.unknown_song);
-            this.name = "Bandit";
+            this.name = UNKNOWN_SONG;
 
         } else { this.name = name; }
 
     }
 
-    public void setGroup(String group) { this.group = group; }
+    public void setGroup(String group) {
 
-    public void setPath(String path) { this.path = path; }
+        if (group.equalsIgnoreCase("")) {
 
-    public void setLyrics(String lyrics) { this.lyrics = lyrics; }
+            this.group = UNKNOWN_GROUP;
+
+        } else { this.group = group; }
+
+    }
+
+    public void setPath(String path) {
+
+        if (path.equalsIgnoreCase("")) {
+
+            this.path = UNKNOWN_PATH;
+
+        } else { this.path = path; }
+
+    }
+
+    public void setLyrics(String lyrics) {
+
+        if (lyrics.equalsIgnoreCase("")) {
+
+            this.lyrics = UNKNOWN_LYRICS;
+
+        } else { this.lyrics = lyrics; }
+
+    }
 
     public void setDuration(int duration) { this.duration = duration; }
 

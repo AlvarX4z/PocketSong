@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-public class FragmentHome extends Fragment {
+public final class FragmentHome extends Fragment {
 
     public FragmentHome() { }
 

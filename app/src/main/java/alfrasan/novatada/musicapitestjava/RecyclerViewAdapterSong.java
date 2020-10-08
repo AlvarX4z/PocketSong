@@ -5,13 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class RecyclerViewAdapterSong extends RecyclerView.Adapter<RecyclerViewAdapterSong.ViewHolder> {
+public final class RecyclerViewAdapterSong extends RecyclerView.Adapter<RecyclerViewAdapterSong.ViewHolder> {
 
     private Context context;
     private ArrayList<Song> songList;
@@ -53,9 +54,22 @@ public class RecyclerViewAdapterSong extends RecyclerView.Adapter<RecyclerViewAd
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewAdapterSong.ViewHolder holder, int position) {
 
-        holder.songName.setText(songList.get(position).getName());
-        holder.songGroup.setText(songList.get(position).getGroup());
-        holder.songPath.setText(songList.get(position).getPath());
+        final int pos = position;
+
+        holder.songName.setText(songList.get(pos).getName());
+        holder.songGroup.setText(songList.get(pos).getGroup());
+        holder.songPath.setText(songList.get(pos).getPath());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                ActivityMain.currentSong.setPath(songList.get(pos).getPath());
+                Toast.makeText(context, songList.get(pos).getPath(), Toast.LENGTH_SHORT).show();
+
+            }
+
+        });
 
     }
 
