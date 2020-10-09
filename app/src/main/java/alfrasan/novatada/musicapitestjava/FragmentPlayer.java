@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public final class FragmentPlayer extends Fragment {
 
@@ -21,6 +20,7 @@ public final class FragmentPlayer extends Fragment {
     private MediaPlayer mediaPlayer;
     private Handler handler;
     private SeekBar seekBarDur;
+    private UpdateSeekBar updateSeekBar;
 
     public FragmentPlayer(Context context) { this.context = context; }
 
@@ -30,6 +30,7 @@ public final class FragmentPlayer extends Fragment {
         View view = inflater.inflate(R.layout.fragment_player, container, false);
         mediaPlayer = null;
         handler = new Handler();
+        updateSeekBar = new UpdateSeekBar();
 
         final Button pauseBtn = view.findViewById(R.id.btn_fragplayer_pause);
         final Button playBtn = view.findViewById(R.id.btn_fragplayer_play);
@@ -45,20 +46,16 @@ public final class FragmentPlayer extends Fragment {
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (fromUser) {
-                    mediaPlayer.seekTo(progress);
-                }
-            }
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+                if (fromUser) { mediaPlayer.seekTo(progress); }
 
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(SeekBar seekBar) { }
 
-            }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) { }
 
         });
 
@@ -83,7 +80,6 @@ public final class FragmentPlayer extends Fragment {
 
                 mediaPlayer.start();
 
-                UpdateSeekBar updateSeekBar = new UpdateSeekBar();
                 handler.post(updateSeekBar);
 
             }
@@ -129,8 +125,12 @@ public final class FragmentPlayer extends Fragment {
         @Override
         public void run() {
 
-            seekBarDur.setProgress(mediaPlayer.getCurrentPosition());
-            handler.postDelayed(this, 100);
+            try {
+
+                seekBarDur.setProgress(mediaPlayer.getCurrentPosition());
+                handler.postDelayed(this, 100);
+
+            } catch (Exception e) { seekBarDur.setProgress(0);  }
 
         }
 
