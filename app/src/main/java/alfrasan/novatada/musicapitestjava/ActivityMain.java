@@ -25,7 +25,7 @@ public final class ActivityMain extends AppCompatActivity {
 
         final FragmentManager fragMag = getSupportFragmentManager();
 
-        Toast.makeText(ActivityMain.this, R.string.thanks_app, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, R.string.thanks_app, Toast.LENGTH_SHORT).show();
 
         // ------------------------ EVENTS ------------------------
 
@@ -47,10 +47,12 @@ public final class ActivityMain extends AppCompatActivity {
                         break;
 
                     case 2:
-                        fragTransaction.replace(R.id.frag_layout_main, new FragmentPlayer(context, currentSong));
+                        fragTransaction.replace(R.id.frag_layout_main, new FragmentPlayer(context));
                         break;
 
-                    case 3: // TODO Add the fourth Fragment when created
+                    case 3:
+                        fragTransaction.replace(R.id.frag_layout_main, new FragmentInfo(context));
+                        break;
 
                 }
 

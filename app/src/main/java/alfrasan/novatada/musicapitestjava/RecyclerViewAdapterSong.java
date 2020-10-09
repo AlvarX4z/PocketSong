@@ -64,6 +64,8 @@ public final class RecyclerViewAdapterSong extends RecyclerView.Adapter<Recycler
             public void onClick(View v) {
 
                 ActivityMain.currentSong.setPath(songList.get(pos).getPath());
+                ActivityMain.currentSong.setName(songList.get(pos).getName());
+                ActivityMain.currentSong.setGroup(songList.get(pos).getGroup());
 
             }
 

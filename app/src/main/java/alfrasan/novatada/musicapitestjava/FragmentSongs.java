@@ -2,8 +2,6 @@ package alfrasan.novatada.musicapitestjava;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +10,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public final class FragmentSongs extends Fragment {
@@ -28,14 +25,14 @@ public final class FragmentSongs extends Fragment {
 
         // ----------- TESTING CODE FOR THE RECYCLERVIEW ------------
 
-        ArrayList<Song> songList = getSongsFromMusicDirectory();
-        /*
-        Song song1 = new Song("", "Twenty-One Pilots", "C:/");
+        // ArrayList<Song> songList = getSongsFromMusicDirectory(); // TODO Pending to fix the function
+        ArrayList<Song> songList = new ArrayList<>();
+        Song song1 = new Song("Ride", "Twenty-One Pilots", "C:/");
         Song song2 = new Song("Adam\'s Song", "blink-182", "Z:/");
 
         songList.add(song1);
         songList.add(song2);
-        */
+
         // ----------- END OF TESTING CODE FOR THE RECYCLERVIEW ------------
 
         final RecyclerView recyclerView = view.findViewById(R.id.recview_frag_song);
@@ -56,19 +53,20 @@ public final class FragmentSongs extends Fragment {
 
         ArrayList<Song> songsList = new ArrayList<>();
 
-        String absPath = "/storage/emulated/0/Music";
+        /*
+        String absPath = "/sdcard/Download";
 
         // String con ruta de prueba, pero no funciona. Al ejecutar y acceder al Fragment, peta.
         // String absPath2 = context.getExternalFilesDir(Environment.DIRECTORY_MUSIC).toString();
 
         File musicDirectory = new File(absPath);
         File[] musicFiles = musicDirectory.listFiles();
-
         Log.d("musicDirectory", musicDirectory.getPath());
         Log.d("musicDirectory", (musicDirectory.isDirectory()) ? "Es carpeta" : "Es archivo");
 
         for (File archivo : musicFiles) { Log.d("Archivo", (archivo.getName())); }
         Log.d("aaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaa");
+        */
 
         return songsList;
 
