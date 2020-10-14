@@ -1,11 +1,14 @@
 package alfrasan.novatada.musicapitestjava;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,17 +26,28 @@ public final class FragmentSongs extends Fragment {
 
         final View view = inflater.inflate(R.layout.fragment_song, container, false);
 
-        // ----------- TESTING CODE FOR THE RECYCLERVIEW ------------
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) ==
+                PackageManager.PERMISSION_GRANTED) {
+
+            thingsThisFragmentDoes(view);
+
+        } else {
+
+            requestPermissions(new String[] { Manifest.permission.READ_EXTERNAL_STORAGE }, 1);
+
+            thingsThisFragmentDoes(view);
+
+        }
+
+        return view;
+
+    }
+
+    public void thingsThisFragmentDoes(View view) {
 
         // ArrayList<Song> songList = getSongsFromMusicDirectory(); // TODO Pending to fix the function
         ArrayList<Song> songList = new ArrayList<>();
-        Song song1 = new Song("Ride", "Twenty-One Pilots", "C:/");
-        Song song2 = new Song("Adam\'s Song", "blink-182", "Z:/");
-
-        songList.add(song1);
-        songList.add(song2);
-
-        // ----------- END OF TESTING CODE FOR THE RECYCLERVIEW ------------
+        songList.add((new Song("Chlorine", "21 Pilots", "C:/")));
 
         final RecyclerView recyclerView = view.findViewById(R.id.recview_frag_song);
 
@@ -45,28 +59,22 @@ public final class FragmentSongs extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(recViewAdapter);
 
-        return view;
-
     }
 
     public ArrayList<Song> getSongsFromMusicDirectory() {
 
         ArrayList<Song> songsList = new ArrayList<>();
 
-        /*
-        String absPath = "/sdcard/Download";
-
-        // String con ruta de prueba, pero no funciona. Al ejecutar y acceder al Fragment, peta.
-        // String absPath2 = context.getExternalFilesDir(Environment.DIRECTORY_MUSIC).toString();
-
-        File musicDirectory = new File(absPath);
-        File[] musicFiles = musicDirectory.listFiles();
-        Log.d("musicDirectory", musicDirectory.getPath());
-        Log.d("musicDirectory", (musicDirectory.isDirectory()) ? "Es carpeta" : "Es archivo");
-
-        for (File archivo : musicFiles) { Log.d("Archivo", (archivo.getName())); }
-        Log.d("aaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaa");
-        */
+        /*File[] test = context.getExternalFilesDirs();
+        for (File file : test) {
+            if (file.isFile()) {
+                songsList.add(new Song(file.getName(), file.getPath()));
+            }
+            Log.d("MUSIC FILE", (file.getName()));
+            Log.d("MUSIC FILE", (file.getPath()));
+            Log.d("MUSIC FILE", (file.getAbsolutePath()));
+            Log.d("MUSIC FILE", (file.isFile() ? "FILE" : "NOT FILE"));
+        }*/
 
         return songsList;
 

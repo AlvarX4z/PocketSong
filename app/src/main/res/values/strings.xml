@@ -12,6 +12,14 @@
     <!-- TEXT VIEWS -->
     <string name="txt_frag_main_welcome">Listen to your local music files\nSearch lyrics and info about them\nWhenever and wherever you want to!</string>
     <string name="txt_frag_disclaimer">Training App by <font fgcolor='#FFC107'>Alvaro de Francisco Sanchez</font></string>
+    <string name="txt_frag_info_search">Looking for a song\'s lyrics?</string>
+
+    <!-- HINTS -->
+    <string name="hint_song_name">Song\'s name</string>
+    <string name="hint_song_group">Artist\'s name</string>
+
+    <!-- BUTTONS -->
+    <string name="btn_search_info">Search Lyrics</string>
 
     <!-- IMAGES' CONTENT DESCRIPTIONS -->
     <string name="img_logo">The logo of the app. Its shape is a vinyl disk with a heart and a musical note</string>
@@ -21,5 +29,7 @@
     <string name="thanks_app">Thank you for testing the app!</string>
     <string name="unknown_song">Unknown Song</string>
     <string name="unknown_group">Unknown Group</string>
+    <string name="invalid_field">Check if both field aren\'t empty</string>
+    <string name="connection_failed">Connection Failed: Code number </string>
 
 </resources>
