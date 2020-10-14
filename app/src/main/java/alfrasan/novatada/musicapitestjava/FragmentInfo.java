@@ -1,7 +1,9 @@
 package alfrasan.novatada.musicapitestjava;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +17,9 @@ import androidx.fragment.app.Fragment;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -27,6 +29,7 @@ public final class FragmentInfo extends Fragment {
     private Context context;
     private String songNameURL;
     private String songGroupURL;
+    private String resJSON = "";
     private final String clientAPI = "apikey=CXS5RvuDuOIy93tsBpSkthRS9CcxjeE5GDYNuCOz0pOAc9v70ImcUjg5EG5d1vHX";
     private final String baseURL = "https://orion.apiseeds.com/api/music/lyric/";
 
@@ -48,12 +51,13 @@ public final class FragmentInfo extends Fragment {
 
                 if ((songName != null && songName.length() >= 1) && (songGroup != null && songGroup.length() >= 1)) {
 
-                    songNameURL = songName.getText().toString() + "/";
-                    songGroupURL = songGroup.getText().toString() + "?";
+                    songNameURL = songName.getText().toString() + "?";
+                    songGroupURL = songGroup.getText().toString() + "/";
 
                     try {
 
-                        String infoJSON = getJSONfromApiseedsAPI();
+                        getJSONfromApiseedsAPI();
+                        Log.d("TESTING JSON AFTER FUNC", resJSON);
 
                     }
                     catch (IOException e) { e.printStackTrace(); }
@@ -68,34 +72,61 @@ public final class FragmentInfo extends Fragment {
 
     }
 
-    public String getJSONfromApiseedsAPI() throws IOException {
+    public void getJSONfromApiseedsAPI() throws IOException {
 
-        String urlString, resJSON;
-        URL url;
-        HttpsURLConnection connection;
-        InputStreamReader isr;
-        Gson gson;
+        new Thread(new Runnable() {
 
-        urlString = (baseURL + songNameURL + songGroupURL + clientAPI).replace(" ", "%20");
-        url = new URL(urlString);
-        connection = (HttpsURLConnection)url.openConnection();
+            @Override
+            public void run() {
 
-        connection.setRequestMethod("GET");
-        connection.connect();
+                try {
 
-        if (connection.getResponseCode() != 200) {
+                    Looper.prepare(); // ??
 
-            Toast.makeText(context, R.string.connection_failed + connection.getResponseCode(), Toast.LENGTH_LONG).show();
+                    String urlString;
+                    URL url;
+                    HttpsURLConnection connection;
+                    BufferedReader br;
+                    Gson gson;
 
-        }
+                    urlString = (baseURL + songGroupURL + songNameURL + clientAPI);
+                    url = new URL(urlString);
+                    connection = (HttpsURLConnection) url.openConnection();
 
-        isr = new InputStreamReader(connection.getInputStream());
-        gson = new GsonBuilder().setPrettyPrinting().create();
+                    connection.setRequestMethod("GET");
+                    connection.connect();
 
-        resJSON = gson.fromJson(isr, String.class);
-        Log.d("TEST", resJSON);
+                    if (connection.getResponseCode() != 200) {
 
-        return resJSON;
+                        Toast.makeText(context, Resources.getSystem().getString(R.string.connection_failed) + connection.getResponseCode(), Toast.LENGTH_LONG).show();
+
+                    }
+
+
+
+                    br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+                    while (br.ready()) {
+
+                        resJSON += br.readLine();
+
+                    }
+
+                    br.close();
+                    Log.d("TEST JSON IN STRING", resJSON);
+                    Toast.makeText(context, resJSON, Toast.LENGTH_LONG).show();
+
+                    gson = new GsonBuilder().setPrettyPrinting().create();
+
+                    Song testSong = gson.fromJson(resJSON, Song.class);
+
+                    Looper.loop();
+
+                } catch (Exception e) { e.printStackTrace(); }
+
+            }
+
+        }).start();
 
     }
 
