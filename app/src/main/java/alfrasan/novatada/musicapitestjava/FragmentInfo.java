@@ -1,9 +1,7 @@
 package alfrasan.novatada.musicapitestjava;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,15 +12,14 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
+import java.util.List;
 
-import javax.net.ssl.HttpsURLConnection;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public final class FragmentInfo extends Fragment {
 
@@ -54,13 +51,8 @@ public final class FragmentInfo extends Fragment {
                     songNameURL = songName.getText().toString() + "?";
                     songGroupURL = songGroup.getText().toString() + "/";
 
-                    try {
+                    getJSONfromApiseedsAPI();
 
-                        getJSONfromApiseedsAPI();
-                        Log.d("TESTING JSON AFTER FUNC", resJSON);
-
-                    }
-                    catch (IOException e) { e.printStackTrace(); }
 
                 } else { Toast.makeText(context, R.string.invalid_field, Toast.LENGTH_LONG).show(); }
 
@@ -72,61 +64,26 @@ public final class FragmentInfo extends Fragment {
 
     }
 
-    public void getJSONfromApiseedsAPI() throws IOException {
+    public void getJSONfromApiseedsAPI() {
 
-        new Thread(new Runnable() {
+        Retrofit retrofit;
 
+        retrofit = new Retrofit.Builder().baseUrl(baseURL).addConverterFactory(GsonConverterFactory.create()).build();
+
+        Test test = retrofit.create(Test.class);
+
+        Call<FragmentInfo> call = test.find(songGroupURL, songNameURL);
+        call.enqueue(new Callback<FragmentInfo>() {
             @Override
-            public void run() {
-
-                try {
-
-                    Looper.prepare(); // ??
-
-                    String urlString;
-                    URL url;
-                    HttpsURLConnection connection;
-                    BufferedReader br;
-                    Gson gson;
-
-                    urlString = (baseURL + songGroupURL + songNameURL + clientAPI);
-                    url = new URL(urlString);
-                    connection = (HttpsURLConnection) url.openConnection();
-
-                    connection.setRequestMethod("GET");
-                    connection.connect();
-
-                    if (connection.getResponseCode() != 200) {
-
-                        Toast.makeText(context, Resources.getSystem().getString(R.string.connection_failed) + connection.getResponseCode(), Toast.LENGTH_LONG).show();
-
-                    }
-
-
-
-                    br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
-                    while (br.ready()) {
-
-                        resJSON += br.readLine();
-
-                    }
-
-                    br.close();
-                    Log.d("TEST JSON IN STRING", resJSON);
-                    Toast.makeText(context, resJSON, Toast.LENGTH_LONG).show();
-
-                    gson = new GsonBuilder().setPrettyPrinting().create();
-
-                    Song testSong = gson.fromJson(resJSON, Song.class);
-
-                    Looper.loop();
-
-                } catch (Exception e) { e.printStackTrace(); }
-
+            public void onResponse(Call<FragmentInfo> call, Response<FragmentInfo> response) {
+                Log.d("SUCCESS", response.code() + "");
             }
 
-        }).start();
+            @Override
+            public void onFailure(Call<FragmentInfo> call, Throwable t) {
+                Toast.makeText(context, "FAILURE RETRIEVING", Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 
