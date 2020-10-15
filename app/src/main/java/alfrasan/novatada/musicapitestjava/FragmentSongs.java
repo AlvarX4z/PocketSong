@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public final class FragmentSongs extends Fragment {
@@ -45,9 +48,7 @@ public final class FragmentSongs extends Fragment {
 
     public void thingsThisFragmentDoes(View view) {
 
-        // ArrayList<Song> songList = getSongsFromMusicDirectory(); // TODO Pending to fix the function
-        ArrayList<Song> songList = new ArrayList<>();
-        songList.add((new Song("Chlorine", "21 Pilots", "C:/")));
+        ArrayList<Song> songList = getSongsFromMusicDirectory();
 
         final RecyclerView recyclerView = view.findViewById(R.id.recview_frag_song);
 
@@ -65,16 +66,18 @@ public final class FragmentSongs extends Fragment {
 
         ArrayList<Song> songsList = new ArrayList<>();
 
-        /*File[] test = context.getExternalFilesDirs();
-        for (File file : test) {
-            if (file.isFile()) {
-                songsList.add(new Song(file.getName(), file.getPath()));
+        String musicPath = Environment.getExternalStorageDirectory().toString()+"/Music/";
+        File directory = new File(musicPath);
+
+        for (File file : directory.listFiles()) {
+
+            if (file.getName().endsWith(".mp3")) {
+
+                songsList.add(new Song(file.getName().substring(0, file.getName().length() - 4), file.getPath()));
+
             }
-            Log.d("MUSIC FILE", (file.getName()));
-            Log.d("MUSIC FILE", (file.getPath()));
-            Log.d("MUSIC FILE", (file.getAbsolutePath()));
-            Log.d("MUSIC FILE", (file.isFile() ? "FILE" : "NOT FILE"));
-        }*/
+
+        }
 
         return songsList;
 

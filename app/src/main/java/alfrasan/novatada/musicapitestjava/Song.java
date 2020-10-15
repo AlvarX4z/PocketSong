@@ -26,6 +26,7 @@ public final class Song {
 
         setName(name);
         setPath(path);
+        setGroup("");
 
     }
 

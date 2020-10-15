@@ -2,6 +2,7 @@ package alfrasan.novatada.musicapitestjava;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import java.io.File;
 
 public final class FragmentPlayer extends Fragment {
 
@@ -66,7 +69,7 @@ public final class FragmentPlayer extends Fragment {
 
                 if (mediaPlayer == null) {
 
-                    mediaPlayer = MediaPlayer.create(context, R.raw.sample);
+                    mediaPlayer = MediaPlayer.create(context, Uri.fromFile(new File(ActivityMain.currentSong.getPath())));
                     seekBarDur.setMax(mediaPlayer.getDuration());
 
                 }
