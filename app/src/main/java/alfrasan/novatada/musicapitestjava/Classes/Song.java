@@ -1,4 +1,4 @@
-package alfrasan.novatada.musicapitestjava;
+package alfrasan.novatada.musicapitestjava.Classes;
 
 public final class Song {
 

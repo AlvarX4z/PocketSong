@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import alfrasan.novatada.musicapitestjava.Classes.Song;
+
 public final class RecyclerViewAdapterSong extends RecyclerView.Adapter<RecyclerViewAdapterSong.ViewHolder> {
 
     private Context context;

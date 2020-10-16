@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 
+import alfrasan.novatada.musicapitestjava.Classes.Song;
+
 public final class ActivityMain extends AppCompatActivity {
 
     public static Song currentSong = new Song();

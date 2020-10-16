@@ -20,6 +20,7 @@
 
     <!-- BUTTONS -->
     <string name="btn_search_info">Search Lyrics</string>
+    <string name="btn_search_back">Back</string>
 
     <!-- IMAGES' CONTENT DESCRIPTIONS -->
     <string name="img_logo">The logo of the app. Its shape is a vinyl disk with a heart and a musical note</string>
@@ -31,5 +32,6 @@
     <string name="unknown_group">Unknown Group</string>
     <string name="invalid_field">Check if both field aren\'t empty</string>
     <string name="connection_failed">Connection Failed: Code number </string>
+    <string name="api_error_response">Server error - Lyrics cannot be searched</string>
 
 </resources>

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
 import java.util.ArrayList;
+
+import alfrasan.novatada.musicapitestjava.Classes.Song;
 
 public final class FragmentSongs extends Fragment {
 

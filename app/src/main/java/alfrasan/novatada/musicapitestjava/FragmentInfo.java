@@ -1,8 +1,8 @@
 package alfrasan.novatada.musicapitestjava;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +12,11 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import java.io.IOException;
-import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import alfrasan.novatada.musicapitestjava.Classes.SongAPI;
+import alfrasan.novatada.musicapitestjava.Interfaces.CallLyricsAPI;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,12 +25,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public final class FragmentInfo extends Fragment {
 
-    private Context context;
+    private final Context context;
     private String songNameURL;
     private String songGroupURL;
-    private String resJSON = "";
-    private final String clientAPI = "apikey=CXS5RvuDuOIy93tsBpSkthRS9CcxjeE5GDYNuCOz0pOAc9v70ImcUjg5EG5d1vHX";
-    private final String baseURL = "https://orion.apiseeds.com/api/music/lyric/";
+    private SongAPI lyrics;
 
     public FragmentInfo(Context context) { this.context = context; }
 
@@ -41,22 +41,17 @@ public final class FragmentInfo extends Fragment {
         final EditText songGroup = view.findViewById(R.id.editText_song_group);
         final Button btnSearch = view.findViewById(R.id.btn_fraginfo_search);
 
-        btnSearch.setOnClickListener(new Button.OnClickListener() {
+        btnSearch.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
+            if ((songName != null && songName.length() >= 1) && (songGroup != null && songGroup.length() >= 1)) {
 
-                if ((songName != null && songName.length() >= 1) && (songGroup != null && songGroup.length() >= 1)) {
+                songNameURL = songName.getText().toString();
+                songGroupURL = songGroup.getText().toString();
 
-                    songNameURL = songName.getText().toString() + "?";
-                    songGroupURL = songGroup.getText().toString() + "/";
-
-                    getJSONfromApiseedsAPI();
+                getJSONfromApiseedsAPI();
 
 
-                } else { Toast.makeText(context, R.string.invalid_field, Toast.LENGTH_LONG).show(); }
-
-            }
+            } else { Toast.makeText(context, R.string.invalid_field, Toast.LENGTH_LONG).show(); }
 
         });
 
@@ -66,23 +61,41 @@ public final class FragmentInfo extends Fragment {
 
     public void getJSONfromApiseedsAPI() {
 
-        Retrofit retrofit;
+        Gson gson = new GsonBuilder().setLenient().create();
+        String baseURL = "https://orion.apiseeds.com/api/music/lyric/";
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(baseURL).addConverterFactory(GsonConverterFactory.create(gson)).build();
+        CallLyricsAPI test = retrofit.create(CallLyricsAPI.class);
+        Call<SongAPI> call = test.loadLyrics(songGroupURL, songNameURL);
 
-        retrofit = new Retrofit.Builder().baseUrl(baseURL).addConverterFactory(GsonConverterFactory.create()).build();
+        call.enqueue(new Callback<SongAPI>() {
 
-        Test test = retrofit.create(Test.class);
-
-        Call<FragmentInfo> call = test.find(songGroupURL, songNameURL);
-        call.enqueue(new Callback<FragmentInfo>() {
             @Override
-            public void onResponse(Call<FragmentInfo> call, Response<FragmentInfo> response) {
-                Log.d("SUCCESS", response.code() + "");
+            public void onResponse(Call<SongAPI> call, Response<SongAPI> response) {
+
+                if (response.isSuccessful()) {
+
+                    lyrics = new SongAPI();
+                    lyrics.setResult(response.body().getResult());
+
+                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+                    dialogBuilder.setTitle(songGroupURL + " - " + songNameURL);
+                    dialogBuilder.setMessage(lyrics.getResult().getTrack().getText())
+                            .setPositiveButton(R.string.btn_search_back, (dialog, id) -> dialog.dismiss());
+                    dialogBuilder.create();
+                    dialogBuilder.show();
+
+                } else { Toast.makeText(context, R.string.api_error_response, Toast.LENGTH_SHORT).show(); }
+
             }
 
             @Override
-            public void onFailure(Call<FragmentInfo> call, Throwable t) {
-                Toast.makeText(context, "FAILURE RETRIEVING", Toast.LENGTH_LONG).show();
+            public void onFailure(Call<SongAPI> call, Throwable t) {
+
+                Toast.makeText(context, R.string.api_error_response, Toast.LENGTH_SHORT).show();
+                call.cancel();
+
             }
+
         });
 
     }
